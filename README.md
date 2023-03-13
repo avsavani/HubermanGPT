@@ -119,7 +119,7 @@ This code base is based on [Mckay Wrigley's](https://twitter.com/mckaywrigley) i
 
 Thanks to [Dr. Andrew Huberman](https://twitter.com/paulg) for putting out great podcast.
 
-I highly recommend to listening to the full podcasts from the reasults.
+I highly recommend to listening to the full podcasts from the results.
 
 ## Contact
 
