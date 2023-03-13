@@ -1,6 +1,6 @@
-# Paul Graham GPT
+# Huberman GPT
 
-AI-powered search and chat for [Paul Graham's](https://twitter.com/paulg) [essays](http://www.paulgraham.com/articles.html).
+AI-powered search and chat for [Dr. Andrew Huberman's](https://twitter.com/hubermanlab) [essays](http://hubermanlab.com).
 
 All code & data used is 100% open-source.
 
@@ -8,13 +8,13 @@ All code & data used is 100% open-source.
 
 The dataset is a CSV file containing all text & embeddings used.
 
-Download it [here](https://drive.google.com/file/d/1BxcPw2mn0VYFucc62wlt9H0nQiOu38ki/view?usp=sharing).
+Download it [here](https://drive.google.com/drive/folders/1CKs1hzwMT34tnQjpsN40yxov4FLFT-BN?usp=share_link).
 
 I recommend getting familiar with fetching, cleaning, and storing data as outlined in the scraping and embedding scripts below, but feel free to skip those steps and just use the dataset.
 
 ## How It Works
 
-Paul Graham GPT provides 2 things:
+Huberman GPT provides 2 things:
 
 1. A search interface.
 2. A chat interface.
@@ -64,7 +64,7 @@ I recommend turning on Row Level Security and setting up a service role to use w
 3. Clone repo
 
 ```bash
-git clone https://github.com/mckaywrigley/paul-graham-gpt.git
+git clone https://github.com/avsavani/hubermangpt
 ```
 
 4. Install dependencies
@@ -104,7 +104,7 @@ This reads the json file, generates embeddings for each chunk of text, and saves
 
 There is a 200ms delay between each request to avoid rate limiting.
 
-This process will take 20-30 minutes.
+This process will take 2 houra.
 
 ### App
 
@@ -116,20 +116,14 @@ npm run dev
 
 ## Credits
 
-Thanks to [Paul Graham](https://twitter.com/paulg) for his writing.
+Thanks to [Dr. Andrew Huberman](https://twitter.com/paulg) for his writing.
 
-I highly recommend you read his essays.
-
-3 years ago they convinced me to learn to code, and it changed my life.
+I highly recommend to listen to the full podcasts from the suggested list under search reasults.
 
 ## Contact
 
-If you have any questions, feel free to reach out to me on [Twitter](https://twitter.com/mckaywrigley)!
+If you have any questions, feel free to reach out to me on [Twitter](https://twitter.com/ashishsavani1)!
 
 ## Notes
 
-I sacrificed composability for simplicity in the app.
-
-Yes, you can make things more modular and reusable.
-
-But I kept pretty much everything in the homepage component for the sake of simplicity.
+This code base is based on [Mckay Wrigley]'s (https://twitter.com/mckaywrigley) implementation of [Paul Graham GPT] (https://github.com/mckaywrigley/paul-graham-gpt)
