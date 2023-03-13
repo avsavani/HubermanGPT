@@ -1,6 +1,6 @@
 # Huberman GPT
 
-AI-powered search and chat for [Dr. Andrew Huberman's](https://twitter.com/hubermanlab) [essays](http://hubermanlab.com).
+AI-powered search and chat for [Dr. Andrew Huberman](https://twitter.com/hubermanlab)'s [Podcast](http://hubermanlab.com).
 
 All code & data used is 100% open-source.
 
