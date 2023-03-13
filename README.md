@@ -115,7 +115,7 @@ npm run dev
 ```
 
 ## Credits
-This code base is based on [Mckay Wrigley's] (https://twitter.com/mckaywrigley) implementation of [Paul Graham GPT] (https://github.com/mckaywrigley/paul-graham-gpt)
+This code base is based on [Mckay Wrigley's](https://twitter.com/mckaywrigley) implementation of [Paul Graham GPT](https://github.com/mckaywrigley/paul-graham-gpt)
 
 Thanks to [Dr. Andrew Huberman](https://twitter.com/paulg) for putting out great podcast.
 
