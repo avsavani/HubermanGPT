@@ -9,7 +9,7 @@ export const Navbar: FC = () => {
           className="hover:opacity-50"
           href="https://hubermangpt.vercel.app"
         >
-          Paul Graham GPT
+          Huberman GPT
         </a>
       </div>
       <div>
