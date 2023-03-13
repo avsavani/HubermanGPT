@@ -37,3 +37,4 @@ next-env.d.ts
 
 # tsn
 tsn.json
+./scripts/pg.json

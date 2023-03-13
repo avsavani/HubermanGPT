@@ -7,7 +7,7 @@ export const Footer: FC = () => {
       <div className="hidden sm:flex"></div>
 
       <div className="hidden sm:flex italic text-sm">
-        Created by
+        Creidts to for the codebase
         <a
           className="hover:opacity-50 mx-1"
           href="https://twitter.com/mckaywrigley"
@@ -16,14 +16,14 @@ export const Footer: FC = () => {
         >
           Mckay Wrigley
         </a>
-        based on the essays of
+        based on the HubermanLab podcast transcript
         <a
           className="hover:opacity-50 ml-1"
-          href="https://twitter.com/paulg"
+          href="https://twitter.com/hubermanlab"
           target="_blank"
           rel="noreferrer"
         >
-          Paul Graham
+          Dr. Andrew Huberman
         </a>
         .
       </div>
@@ -31,7 +31,7 @@ export const Footer: FC = () => {
       <div className="flex space-x-4">
         <a
           className="flex items-center hover:opacity-50"
-          href="https://twitter.com/mckaywrigley"
+          href="https://twitter.com/ashishsavani1"
           target="_blank"
           rel="noreferrer"
         >
@@ -40,7 +40,7 @@ export const Footer: FC = () => {
 
         <a
           className="flex items-center hover:opacity-50"
-          href="https://github.com/mckaywrigley/paul-graham-gpt"
+          href="https://github.com/avsavani/HubermanGPT"
           target="_blank"
           rel="noreferrer"
         >
