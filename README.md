@@ -23,7 +23,7 @@ Huberman GPT provides 2 things:
 
 Search was created with [OpenAI Embeddings](https://platform.openai.com/docs/guides/embeddings) (`text-embedding-ada-002`).
 
-First, we loop over the essays and generate embeddings for each chunk of text.
+First, we loop over the transcription files break each file down into chunks and generate embeddings for each chunk of text.
 
 Then in the app we take the user's search query, generate an embedding, and use the result to find the most similar passages from the book.
 
@@ -92,7 +92,7 @@ SUPABASE_SERVICE_ROLE_KEY=
 npm run scrape
 ```
 
-This scrapes all of the essays from Paul Graham's website and saves them to a json file.
+I have implemented this part in python will update soon. 
 
 7. Run embedding script
 
@@ -115,15 +115,13 @@ npm run dev
 ```
 
 ## Credits
+This code base is based on [Mckay Wrigley's] (https://twitter.com/mckaywrigley) implementation of [Paul Graham GPT] (https://github.com/mckaywrigley/paul-graham-gpt)
 
-Thanks to [Dr. Andrew Huberman](https://twitter.com/paulg) for his writing.
+Thanks to [Dr. Andrew Huberman](https://twitter.com/paulg) for putting out great podcast.
 
-I highly recommend to listen to the full podcasts from the suggested list under search reasults.
+I highly recommend to listening to the full podcasts from the reasults.
 
 ## Contact
 
 If you have any questions, feel free to reach out to me on [Twitter](https://twitter.com/ashishsavani1)!
 
-## Notes
-
-This code base is based on [Mckay Wrigley]'s (https://twitter.com/mckaywrigley) implementation of [Paul Graham GPT] (https://github.com/mckaywrigley/paul-graham-gpt)
