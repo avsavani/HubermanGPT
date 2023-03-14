@@ -6,7 +6,7 @@ export const Footer: FC = () => {
     <div className="flex h-[50px] border-t border-gray-300 py-2 px-8 items-center sm:justify-between justify-center">
       <div className="hidden sm:flex"></div>
 
-      <div className="hidden sm:flex italic text-sm">
+      <div className=" text-white hidden sm:flex italic text-sm">
         Creidts to
         <a
           className="hover:opacity-50 mx-1"
@@ -18,7 +18,7 @@ export const Footer: FC = () => {
         </a>
         ,based on the HubermanLab podcast transcript
         <a
-          className="hover:opacity-50 ml-1"
+          className=" text-white hover:opacity-50 ml-1"
           href="https://twitter.com/hubermanlab"
           target="_blank"
           rel="noreferrer"
@@ -28,7 +28,7 @@ export const Footer: FC = () => {
         .
       </div>
 
-      <div className="flex space-x-4">
+      <div className=" text-white flex space-x-4">
         <a
           className="flex items-center hover:opacity-50"
           href="https://twitter.com/ashishsavani1"
@@ -39,7 +39,7 @@ export const Footer: FC = () => {
         </a>
 
         <a
-          className="flex items-center hover:opacity-50"
+          className=" text-white flex items-center hover:opacity-50"
           href="https://github.com/avsavani/HubermanGPT"
           target="_blank"
           rel="noreferrer"

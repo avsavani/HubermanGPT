@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+h1 {
+    position: absolute; /* position it relative to the body */
+
+
+  }
