@@ -247,7 +247,7 @@ export default function Home() {
               </div>
             ) : answer ? (
               <div className="mt-6">
-                <div className="font-bold text-2xl mb-2">Answer</div>
+                <div className="text-white font-bold text-2xl mb-2">Answer</div>
                 <Answer text={answer} />
 
                 <div className="mt-6 mb-16">
@@ -258,11 +258,11 @@ export default function Home() {
                       <div className="mt-4 border border-zinc-600 rounded-lg p-4">
                         <div className="flex justify-between">
                           <div>
-                            <div className="font-bold text-xl">{chunk.essay_title}</div>
-                            <div className="mt-1 font-bold text-sm">{chunk.essay_date}</div>
+                            <div className="text-white font-bold text-xl">{chunk.essay_title}</div>
+                            <div className="text-white mt-1 font-bold text-sm">{chunk.essay_date}</div>
                           </div>
                           <a
-                            className="hover:opacity-50 ml-2"
+                            className="text-white hover:opacity-50 ml-2"
                             href={chunk.essay_url}
                             target="_blank"
                             rel="noreferrer"
@@ -270,7 +270,7 @@ export default function Home() {
                             <IconExternalLink />
                           </a>
                         </div>
-                        <div className="mt-2">{chunk.content}</div>
+                        <div className="text-white mt-2">{chunk.content}</div>
                       </div>
                     </div>
                   ))}
