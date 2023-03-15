@@ -14,7 +14,8 @@ const handler = async (req: Request): Promise<Response> => {
     };
 
     const input = query.replace(/\n/g, " ");
-    const apiKe = process.env.NEXT_PUBLIC_OPENAI_API_KEY!;
+    const apiKe = process.env.OPENAI_API_KEY!;
+    console.log("the api ke",apiKe)
     const res = await fetch("https://api.openai.com/v1/embeddings", {
       headers: {
         "Content-Type": "application/json",
