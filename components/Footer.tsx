@@ -7,16 +7,16 @@ export const Footer: FC = () => {
       <div className="hidden sm:flex"></div>
 
       <div className="hidden sm:flex italic text-sm">
-        Creidts to
+        Created by
         <a
           className="hover:opacity-50 mx-1"
           href="https://twitter.com/mckaywrigley"
           target="_blank"
           rel="noreferrer"
         >
-          <b>Mckay Wrigley</b>
+          <b>Ashish Savani</b>
         </a>
-        ,based on the HubermanLab podcast transcript
+        , based on the HubermanLab podcast transcript
         <a
           className="hover:opacity-50 ml-1"
           href="https://twitter.com/hubermanlab"
