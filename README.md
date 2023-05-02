@@ -37,7 +37,7 @@ Results are ranked by similarity score and returned to the user.
 
 Chat builds on top of search. It uses search results to create a prompt that is fed into GPT-3.5-turbo.
 
-This allows for a chat-like experience where the user can ask questions about the book and get answers.
+This allows for a chat-like experience where the user can ask questions about the Podcast and get answers.
 
 ## Running Locally
 
@@ -78,12 +78,11 @@ npm i
 Create a .env.local file in the root of the repo with the following variables:
 
 ```bash
-OPENAI_API_KEY=
-
+NEXT_PUBLIC_OPENAI_API_KEY=
 NEXT_PUBLIC_SUPABASE_URL=
-SUPABASE_SERVICE_ROLE_KEY=
+NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY=
 ```
-
+We have to prefix the variables with NEXT_PUBLIC_ so that they are available the edge functions on Vercel on deployment.
 ### Dataset
 
 6. Run scraping script
@@ -91,8 +90,7 @@ SUPABASE_SERVICE_ROLE_KEY=
 ```bash
 npm run scrape
 ```
-
-I have implemented this part in python will update soon. 
+You won't need to run this script as I have already scraped the data and uploaded it to the Google Drive.
 
 7. Run embedding script
 
@@ -104,7 +102,10 @@ This reads the json file, generates embeddings for each chunk of text, and saves
 
 There is a 200ms delay between each request to avoid rate limiting.
 
-This process will take 2 houra.
+This process will take 2 hours.
+
+To pause the process use ctrl + c. 
+To resume the process use npm run embed again. It will start from where it left off.
 
 ### App
 
