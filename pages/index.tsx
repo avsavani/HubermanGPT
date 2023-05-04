@@ -3,13 +3,16 @@ import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import { PGChunk } from "@/types";
 import { IconArrowRight, IconExternalLink, IconSearch } from "@tabler/icons-react";
-import endent from "endent";
-import Head from "next/head";
-import { KeyboardEvent, useEffect, useRef, useState } from "react";
+import endent from "endent"; // To create multilines strings with consistent indentation
+import Head from "next/head"; // To manage the 'head' of the React document
+import { KeyboardEvent, useEffect, useRef, useState } from "react"; // Import React hooks
 
+// Define the Home component
 export default function Home() {
-  const inputRef = useRef<HTMLInputElement>(null);
+  // Initialize state variables using the useState hook
+  const inputRef = useRef<HTMLInputElement>(null); // Reference to the input field
 
+  // Define state for handling user input, search results, answer and loading status
   const [query, setQuery] = useState<string>("");
   const [chunks, setChunks] = useState<PGChunk[]>([]);
   const [answer, setAnswer] = useState<string>("");
@@ -20,6 +23,16 @@ export default function Home() {
   const [matchCount, setMatchCount] = useState<number>(5);
   const [apiKey, setApiKey] = useState<string>("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");
 
+    /*
+    Define function to handle searching, which fetches search results from the API
+    check for API key and query
+    clear previous results
+    set loading state to true, to show loading indicator
+    fetch search results from the API
+    if the response is not ok, throw an error
+    set the search results in the state
+    set loading state to false, to hide loading indicator
+ */
   const handleSearch = async () => {
     if (!apiKey) {
       alert("Please enter an API key.");
@@ -60,7 +73,10 @@ export default function Home() {
     return results;
   };
 
+  // Define function to handle generating an answer, which fetches an answer from the API
+  // Similar to handleSearch, but also fetches an answer based on the search results
   const handleAnswer = async () => {
+    // Error handling: check for API key and query
     if (!apiKey) {
       alert("Please enter an API key.");
       return;
@@ -240,7 +256,7 @@ export default function Home() {
                 </div>
 
                 <div className="mt-2">
-                  <div>Passage Count</div>
+                  <div>Results Count</div>
                   <input
                     type="number"
                     min={1}
