@@ -4,10 +4,10 @@ create extension vector;
 -- RUN 2nd
 create table pg (
   id bigserial primary key,
-  essay_title text,
-  essay_url text,
-  essay_date text,
-  essay_thanks text,
+  hl_title text,
+  hl_url text,
+  hl_date text,
+  hl_thanks text,
   content text,
   content_length bigint,
   content_tokens bigint,
@@ -22,10 +22,10 @@ create or replace function pg_search (
 )
 returns table (
   id bigint,
-  essay_title text,
-  essay_url text,
-  essay_date text,
-  essay_thanks text,
+  hl_title text,
+  hl_url text,
+  hl_date text,
+  hl_thanks text,
   content text,
   content_length bigint,
   content_tokens bigint,
@@ -37,10 +37,10 @@ begin
   return query
   select
     pg.id,
-    pg.essay_title,
-    pg.essay_url,
-    pg.essay_date,
-    pg.essay_thanks,
+    pg.hl_title,
+    pg.hl_url,
+    pg.hl_date,
+    pg.hl_thanks,
     pg.content,
     pg.content_length,
     pg.content_tokens,

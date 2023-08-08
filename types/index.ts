@@ -14,10 +14,10 @@ export type PGEssay = {
 };
 
 export type PGChunk = {
-  essay_title: string;
-  essay_url: string;
-  essay_date: string;
-  essay_thanks: string;
+  hl_title: string;
+  hl_url: string;
+  hl_date: string;
+  hl_thanks: string;
   content: string;
   content_length: number;
   content_tokens: number;
