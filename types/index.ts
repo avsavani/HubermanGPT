@@ -2,7 +2,7 @@ export enum OpenAIModel {
   DAVINCI_TURBO = "gpt-3.5-turbo"
 }
 
-export type PGEssay = {
+export type HLVideo = {
   title: string;
   url: string;
   date: string;
@@ -10,26 +10,25 @@ export type PGEssay = {
   content: string;
   length: number;
   tokens: number;
-  chunks: PGChunk[];
+  chunks: HLChapters[];
 };
 
-export type PGChunk = {
-  hl_title: string;
-  hl_url: string;
-  hl_date: string;
-  hl_thanks: string;
+export type HLChapters = {
+  video_url: string;
+  video_date: string;
+  video_title: string;
   content: string;
   content_length: number;
   content_tokens: number;
   embedding: number[];
 };
 
-export type PGJSON = {
+export type HLJSON = {
   current_date: string;
   author: string;
   url: string;
   length: number;
   tokens: number;
-  essays: PGEssay[];
+  essays: HLVideo[];
 };
 
