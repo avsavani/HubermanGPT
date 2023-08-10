@@ -49,7 +49,7 @@ const generateEmbeddings = async (essays: PGEssay[]) => {
 };
 
 (async () => {
-    const book: PGJSON = JSON.parse(fs.readFileSync("scripts/pg.json", "utf8"));
+    const book: PGJSON = JSON.parse(fs.readFileSync("scripts/final_data.json", "utf8"));
 
     await generateEmbeddings(book.essays);
 })();

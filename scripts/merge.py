@@ -1,12 +1,17 @@
 import os
 import json
 from datetime import date
+import re
+
+def remove_special_chars(text):
+    """Remove special characters and spaces from the given text."""
+    return re.sub(r'[^a-zA-Z0-9]', '', text)
 
 def count_chars_and_tokens(text):
     """Count characters and words(tokens) in a text."""
     return len(text), len(text.split())
 
-def merge_data_to_final_file(summaries_dir, output_path):
+def merge_data_to_final_file(summaries_dir, output_path,playlist_path):
     # Initialize HLJSON structure
     hljson = {
         "current_date": str(date.today()),
@@ -14,13 +19,18 @@ def merge_data_to_final_file(summaries_dir, output_path):
         "url": "https://www.youtube.com/@hubermanlab",
         "length": 0,
         "tokens": 0,
-        "essays": []
+        "videos": []
     }
+    with open(playlist_path, 'r') as pl_file:
+        playlist_data = json.load(pl_file)
 
     for filename in os.listdir(summaries_dir):
+
         if filename.endswith(".json"):
             with open(os.path.join(summaries_dir, filename), 'r') as file:
                 video_data = json.load(file)
+            cleaned_filename = remove_special_chars(filename.replace('.json', ''))
+            print(cleaned_filename)
 
             hlvideo = {
                 "title": filename.replace('.json', ''),
@@ -29,8 +39,18 @@ def merge_data_to_final_file(summaries_dir, output_path):
                 "content": [],
                 "length": 0,
                 "tokens": 0,
-                "chunks": []
+                "chapters": []
             }
+
+            for i,title in enumerate([ video['title'] for video in playlist_data]):
+                if cleaned_filename in remove_special_chars(title):
+                    matching_video = playlist_data[i]
+                    print("Matched")
+                    break
+            if matching_video:
+                hlvideo["url"] = matching_video.get("url", "")
+                hlvideo["date"] = matching_video.get("date", "")
+                hlvideo["id"] = matching_video.get("id", "")
 
             # Build the content for the video by merging all chapters
             for chapter in video_data:
@@ -46,18 +66,19 @@ def merge_data_to_final_file(summaries_dir, output_path):
                     "hl_title": chapter["title"],
                     "hl_url": "",
                     "hl_date": "",
+                    'id': '', # 'id': '
                     "content": chapter_content,
                     "content_length": chapter_length,
                     "content_tokens": chapter_tokens,
                     "embedding": []
                 }
 
-                hlvideo["chunks"].append(hlchapter)
+                hlvideo["chapters"].append(hlchapter)
 
-            hljson["essays"].append(hlvideo)
+            hljson["videos"].append(hlvideo)
 
     # Calculate the overall length and tokens for the entire dataset
-    for video in hljson["essays"]:
+    for video in hljson["videos"]:
         hljson["length"] += video["length"]
         hljson["tokens"] += video["tokens"]
 
@@ -69,4 +90,4 @@ def merge_data_to_final_file(summaries_dir, output_path):
 summaries_directory = "/Users/ashishsavani/HubermanGPT/data/summaries"
 final_output_path = "/Users/ashishsavani/HubermanGPT/data/final_data.json"
 
-merge_data_to_final_file(summaries_directory, final_output_path)
+merge_data_to_final_file(summaries_directory, final_output_path,playlist_path="/Users/ashishsavani/HubermanGPT/data/playlist/playlist.json")

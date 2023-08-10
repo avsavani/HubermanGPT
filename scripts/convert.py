@@ -44,4 +44,3 @@ if __name__ == "__main__":
         # wrire merged segments to a new file named "merged_segments.json"
         with open('/Users/ashishsavani/HubermanGPT/data/' + file, 'w') as f:
             json.dump(merged_segments, f, indent=4)
-        
