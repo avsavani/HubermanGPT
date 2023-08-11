@@ -1,7 +1,7 @@
 import { Answer } from "@/components/Answer/Answer";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
-import {HLChapters} from "@/types";
+import {HLChapter} from "@/types";
 import { IconArrowRight, IconExternalLink, IconSearch } from "@tabler/icons-react";
 import endent from "endent"; // To create multilines strings with consistent indentation
 import Head from "next/head"; // To manage the 'head' of the React document
@@ -14,7 +14,7 @@ export default function Home() {
 
   // Define state for handling user input, search results, answer and loading status
   const [query, setQuery] = useState<string>("");
-  const [chapters, setChapters] = useState<HLChapters[]>([]);
+  const [chapters, setChapters] = useState<HLChapter[]>([]);
   const [answer, setAnswer] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -62,7 +62,7 @@ export default function Home() {
       throw new Error(searchResponse.statusText);
     }
 
-    const results: HLChapters[] = await searchResponse.json();
+    const results: HLChapter[] = await searchResponse.json();
 
     setChapters(results);
 
@@ -105,7 +105,7 @@ export default function Home() {
       throw new Error(searchResponse.statusText);
     }
 
-    const results: HLChapters[] = await searchResponse.json();
+    const results: HLChapter[] = await searchResponse.json();
 
     setChapters(results);
 
@@ -369,24 +369,24 @@ export default function Home() {
                 <div className="mt-6 mb-16">
                   <div className="font-bold text-2xl">Passages</div>
 
-                  {chapters.map((chunk, index) => (
+                  {chapters.map((chapter, index) => (
                     <div key={index}>
                       <div className="mt-4 border border-zinc-600 rounded-lg p-4">
                         <div className="flex justify-between">
                           <div>
-                            <div className="font-bold text-xl">{chunk.video_title}</div>
-                            <div className="mt-1 font-bold text-sm">{chunk.video_date}</div>
+                            <div className="font-bold text-xl">{chapter.chapter_title}</div>
+                            <div className="mt-1 font-bold text-sm">{chapter.hl_date}</div>
                           </div>
                           <a
                             className="hover:opacity-50 ml-2"
-                            href={chunk.video_url}
+                            href={chapter.hl_url}
                             target="_blank"
                             rel="noreferrer"
                           >
                             <IconExternalLink />
                           </a>
                         </div>
-                        <div className="mt-2">{chunk.content}</div>
+                        <div className="mt-2">{chapter.conversation.toString()}</div>
                       </div>
                     </div>
                   ))}
@@ -400,19 +400,19 @@ export default function Home() {
                     <div className="mt-4 border border-zinc-600 rounded-lg p-4">
                       <div className="flex justify-between">
                         <div>
-                          <div className="font-bold text-xl">{video.video_title}</div>
-                          <div className="mt-1 font-bold text-sm">{video.video_date}</div>
+                          <div className="font-bold text-xl">{video.chapter_title}</div>
+                          <div className="mt-1 font-bold text-sm">{video.hl_date}</div>
                         </div>
                         <a
                           className="hover:opacity-50 ml-2"
-                          href={video.video_url}
+                          href={video.hl_url}
                           target="_blank"
                           rel="noreferrer"
                         >
                           <IconExternalLink />
                         </a>
                       </div>
-                      <div className="mt-2">{video.content}</div>
+                      <div className="mt-2">{video.conversation.toString()}</div>
                     </div>
                   </div>
                 ))}

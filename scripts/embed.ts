@@ -6,7 +6,7 @@ import {Configuration, OpenAIApi} from "openai";
 
 loadEnvConfig("");
 
-const generateEmbeddings = async (essays: HLVideo[]) => {
+const generateEmbeddings = async (essays: HLVidoes[]) => {
     const configuration = new Configuration({apiKey: process.env.OPENAI_API_KEY});
     const openai = new OpenAIApi(configuration);
 
@@ -15,23 +15,37 @@ const generateEmbeddings = async (essays: HLVideo[]) => {
     for (let i = 0; i < essays.length; i++) {
         const section = essays[i];
 
-        for (let j = 0; j < section.chunks.length; j++) {
-            const chapter = section.chunks[j];
-            const {hl_title, hl_url, hl_date, hl_thanks, content, content_length, content_tokens} = chapter;
+        for (let j = 0; j < section.chapters.length; j++) {
+            const chapter = section.chapters[j];
+
+            const { chapter_title, hl_url, hl_date, hl_id, start_time, end_time, conversation, conversation_length, content_tokens } = chapter;
+            // turn conversation into a string with newlines and speaker names
+            // export type HLSegment = {
+            //     start: number; // float in seconds
+            //     end: number;
+            //     speaker: string;
+            //     segment: string;
+            // }
+
+            const conversationString = conversation.map(({speaker, segment}) => `${speaker}: ${segment}`).join("\n");
+
             const embeddingResponse = await openai.createEmbedding({
                 model: "text-embedding-ada-002",
-                input: content
+                input: conversationString
             });
+
             const [{embedding}] = embeddingResponse.data.data;
             const {data, error} = await supabase
                 .from("pg")
                 .insert({
-                    hl_title,
+                    chapter_title,
                     hl_url,
                     hl_date,
-                    hl_thanks,
-                    content,
-                    content_length,
+                    hl_id,
+                    start_time,
+                    end_time,
+                    conversation,
+                    conversation_length,
                     content_tokens,
                     embedding
                 })
@@ -49,7 +63,6 @@ const generateEmbeddings = async (essays: HLVideo[]) => {
 };
 
 (async () => {
-    const book: HLJSON = JSON.parse(fs.readFileSync("scripts/final_data.json", "utf8"));
-
-    await generateEmbeddings(book.essays);
+    const book: HLJSON = JSON.parse(fs.readFileSync("data/final_data.json", "utf8"));
+    await generateEmbeddings(book.videos);
 })();
