@@ -10,9 +10,6 @@ loadEnvConfig("");
 const generateEmbeddings = async (essays: HLVideo[]) => {
     const configuration = new Configuration({apiKey: process.env.OPENAI_API_KEY});
     const openai = new OpenAIApi(configuration);
-    console.log("NEXT_PUBLIC_SUPABASE_URL",process.env.NEXT_PUBLIC_SUPABASE_URL )
-    console.log("SUPABASE_SERVICE_ROLE_KEY",process.env.SUPABASE_SERVICE_ROLE_KEY );
-    console.log("process.env.NEXT_PUBLIC_SUPABASE_URL",process.env.NEXT_PUBLIC_SUPABASE_URL );
 
     const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!);
 
