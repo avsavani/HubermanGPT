@@ -2,7 +2,7 @@ export enum OpenAIModel {
   DAVINCI_TURBO = "gpt-3.5-turbo"
 }
 
-export type HLVidoe = {
+export type HLVideo = {
   title: string;
   url: string;
   date: string;
@@ -32,12 +32,13 @@ export type HLSegment = {
   speaker: string;
   segment: string;
 }
+
 export type HLJSON = {
   current_date: string;
   author: string;
   url: string;
   length: number;
   tokens: number;
-  videos: HLVidoe[];
+  videos: HLVideo[];
 };
 

@@ -1,14 +1,18 @@
-import {HLVidoe, HLJSON} from "@/types";
+import {HLVideo, HLJSON} from "@/types";
 import {loadEnvConfig} from "@next/env";
 import {createClient} from "@supabase/supabase-js";
 import fs from "fs";
 import {Configuration, OpenAIApi} from "openai";
+import process from "process";
 
 loadEnvConfig("");
 
-const generateEmbeddings = async (essays: HLVidoe[]) => {
+const generateEmbeddings = async (essays: HLVideo[]) => {
     const configuration = new Configuration({apiKey: process.env.OPENAI_API_KEY});
     const openai = new OpenAIApi(configuration);
+    console.log("NEXT_PUBLIC_SUPABASE_URL",process.env.NEXT_PUBLIC_SUPABASE_URL )
+    console.log("SUPABASE_SERVICE_ROLE_KEY",process.env.SUPABASE_SERVICE_ROLE_KEY );
+    console.log("process.env.NEXT_PUBLIC_SUPABASE_URL",process.env.NEXT_PUBLIC_SUPABASE_URL );
 
     const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!);
 
@@ -18,7 +22,7 @@ const generateEmbeddings = async (essays: HLVidoe[]) => {
         for (let j = 0; j < section.chapters.length; j++) {
             const chapter = section.chapters[j];
 
-            const { chapter_title, video_date, video_id, start_time, end_time, conversation, conversation_length, conversation_tokens } = chapter;
+            const { video_title,chapter_title, video_date, video_id, start_time, end_time, conversation, conversation_length, conversation_tokens } = chapter;
             // turn conversation into a string with newlines and speaker names
             // export type HLSegment = {
             //     start: number; // float in seconds
@@ -36,8 +40,9 @@ const generateEmbeddings = async (essays: HLVidoe[]) => {
 
             const [{embedding}] = embeddingResponse.data.data;
             const {data, error} = await supabase
-                .from("pg")
+                .from("chapters")
                 .insert({
+                    video_title,
                     chapter_title,
                     video_date,
                     video_id,
@@ -51,7 +56,7 @@ const generateEmbeddings = async (essays: HLVidoe[]) => {
                 .select("*");
 
             if (error) {
-                console.log("error", error);
+                console.log("error 1", error);
             } else {
                 console.log("saved", i, j);
             }

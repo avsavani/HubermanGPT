@@ -31,9 +31,8 @@ export default function Home() {
     fetch search results from the API
     if the response is not ok, throw an error
     set the search results in the state
-    set loading state to false,to hide loading indicator
-    */
-
+    set loading state to false, to hide loading indicator
+ */
   const handleSearch = async () => {
     if (!apiKey) {
       alert("Please enter an API key.");
@@ -380,7 +379,7 @@ export default function Home() {
                           </div>
                           <a
                             className="hover:opacity-50 ml-2"
-                            href={`https://www.youtube.com/watch?v=${chapter.video_id}`}
+                            href={chapter.video_id}
                             target="_blank"
                             rel="noreferrer"
                           >
@@ -406,7 +405,7 @@ export default function Home() {
                         </div>
                         <a
                           className="hover:opacity-50 ml-2"
-                          href={`https://www.youtube.com/watch?v=${video.video_id}`}
+                          href={video.video_id}
                           target="_blank"
                           rel="noreferrer"
                         >
