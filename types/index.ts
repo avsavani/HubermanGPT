@@ -45,3 +45,9 @@ export type HLJSON = {
   videos: HLVideo[];
 };
 
+export type Settings = {
+  PG_KEY: string | null,
+  PG_MATCH_COUNT: string | null,
+  PG_MODE: string | null,
+}
+

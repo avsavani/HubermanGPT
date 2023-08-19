@@ -1,62 +1,46 @@
+import React, { KeyboardEvent, useEffect, useRef, useState } from "react";
+import { IconArrowRight, IconExternalLink, IconSearch } from "@tabler/icons-react";
+import Head from "next/head";
+
+import {searchChapters, fetchAnswer} from '@/services/apiService';
+import {loadSettings, saveSettings, clearSettings} from '@/services/settingsService';
+
 import { Answer } from "@/components/Answer/Answer";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import {HLChapter,HLSegment} from "@/types";
-import { IconArrowRight, IconExternalLink, IconSearch } from "@tabler/icons-react";
-import endent from "endent"; // To create multilines strings with consistent indentation
-import Head from "next/head"; // To manage the 'head' of the React document
-import React from "react";
-import { KeyboardEvent, useEffect, useRef, useState } from "react"; // Import React hooks
 
-// Define the Home component
-export default function Home() {
-  // Initialize state variables using the useState hook
-  const inputRef = useRef<HTMLInputElement>(null); // Reference to the input field
-
-  // Define state for handling user input, search results, answer and loading status
+export default function Home(): JSX.Element {
+  const inputRef = useRef<HTMLInputElement>(null);
   const [query, setQuery] = useState<string>("");
   const [chapters, setChapters] = useState<HLChapter[]>([]);
   const [answer, setAnswer] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-
   const [showSettings, setShowSettings] = useState<boolean>(false);
   const [mode, setMode] = useState<"search" | "chat">("chat");
   const [matchCount, setMatchCount] = useState<number>(5);
   const [apiKey, setApiKey] = useState<string>("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");
   const [selectedChapterIndex, setSelectedChapterIndex] = useState<number|null>(null);
-  /*
-  Define function to handle searching, which fetches search results from the API
-  check for API key and query
-  clear previous results
-  set loading state to true, to show loading indicator
-  fetch search results from the API
-  if the response is not ok, throw an error
-  set the search results in the state
-  set loading state to false, to hide loading indicator
-  */
 
-  const formatSegment = (segment: HLSegment, index: number) => (
+
+  const formatSegment = (segment: HLSegment, index: number,speaker:string) => (
       <React.Fragment key={index}>
-        <strong>{segment.speaker}</strong>: {segment.segment} <br /><br />
+        <strong>{segment.speaker === "SPEAKER_01" ? speaker : "Dr. Huberman"}</strong>: {segment.segment} <br /><br />
       </React.Fragment>
   );
 
-  const formatChapterUI = (chapter: HLChapter) => (
+  const formatChapterUI = (chapter: HLChapter,speaker:string) => (
       <>
-        {chapter.conversation.map((segment, i) => formatSegment(segment, i))}
+        {chapter.conversation.map((segment, i) => formatSegment(segment, i,speaker))}
       </>
   );
 
   const handleChapterClick = (index: number) => {
-    if (selectedChapterIndex === index) {
-      setSelectedChapterIndex(null); // if chapter is already opened, then close it
-    } else {
-      setSelectedChapterIndex(index); // open the clicked chapter
-    }
+    setSelectedChapterIndex(selectedChapterIndex === index ? null : index);
   };
 
   const formatChapter = (chapter: HLChapter) => {
-    const segments = chapter.conversation.map(formatSegment).join('<br \>');
+    const segments = chapter.conversation.map((segment, index) => formatSegment(segment, index, chapter.video_title.split(':')[0])).join('<br \>');
     return `Video Title: ${chapter.video_title}
               Chapter Title: ${chapter.chapter_title}
               Video Date: ${chapter.video_date}
@@ -64,129 +48,64 @@ export default function Home() {
               ${segments}`;
   };
 
-  const handleSearch = async () => {
-    if (!apiKey) {
-      alert("Please enter an API key.");
+  const handleSearch = async (): Promise<void> => {
+    if (!apiKey || !query) {
+      alert(!apiKey ? 'Please enter an API key.' : 'Please enter a query.');
       return;
     }
-
-    if (!query) {
-      alert("Please enter a query.");
-      return;
-    }
-
-    setAnswer("");
+    setAnswer('');
     setChapters([]);
-
     setLoading(true);
-
-    const searchResponse = await fetch("/api/search", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ query, apiKey, matches: matchCount })
-    });
-
-    if (!searchResponse.ok) {
+    try {
+      const results = await searchChapters(apiKey, query, matchCount);
+      setChapters(results);
+    } catch (error) {
       setLoading(false);
-      throw new Error(searchResponse.statusText);
+      console.error(error);
     }
-
-    const results: HLChapter[] = await searchResponse.json();
-
-    setChapters(results);
-
-    setLoading(false);
-
-    inputRef.current?.focus();
-
-    return results;
   };
 
-  // Define function to handle generating an answer, which fetches an answer from the API
-  // Similar to handleSearch, but also fetches an answer based on the search results
-  const handleAnswer = async () => {
-    // Error handling: check for API key and query
-    if (!apiKey) {
-      alert("Please enter an API key.");
+
+  const handleAnswer = async (): Promise<void> => {
+    if (!apiKey || !query) {
+      alert(!apiKey ? 'Please enter an API key.' : 'Please enter a query.');
       return;
     }
-
-    if (!query) {
-      alert("Please enter a query.");
-      return;
-    }
-
-    setAnswer("");
+    setAnswer('');
     setChapters([]);
-
     setLoading(true);
+    try {
+      const results = await searchChapters(apiKey, query, matchCount);
+      setChapters(results);
+      const prompt = `Use the following passages to provide an answer to the query: "${query}"${results?.map(formatChapter).join('\n\n')}`;
+      const stream = await fetchAnswer(apiKey, prompt);
+      if (stream) {
+        const reader = stream.getReader();
+        const decoder = new TextDecoder("utf-8");
 
-    const searchResponse = await fetch("/api/search", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ query, apiKey, matches: matchCount })
-    });
+        reader.read().then((result) => handleStream(result, reader, decoder));
+      }
 
-    if (!searchResponse.ok) {
       setLoading(false);
-      throw new Error(searchResponse.statusText);
-    }
 
-    const results: HLChapter[] = await searchResponse.json();
-
-    setChapters(results);
-
-
-    const prompt = `Use the following passages to provide an answer to the query: "${query}"
-    ${results?.map(formatChapter).join("\n\n")}`;
-
-
-    const answerResponse = await fetch("/api/answer", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ prompt, apiKey })
-    });
-
-    if (!answerResponse.ok) {
       setLoading(false);
-      throw new Error(answerResponse.statusText);
+    } catch (error) {
+      setLoading(false);
+      console.error(error);
     }
+  };
 
-    const data = answerResponse.body;
+  // @ts-ignore
+  const handleStream = (result: ReadableStreamDefaultReadResult<Uint8Array>, reader: ReadableStreamDefaultReader<Uint8Array>, decoder: TextDecoder): void => {
+    if (result.done) return;
 
-    if (!data) {
-      return;
-    }
-
-    setLoading(false);
-
-    const reader = data.getReader();
-    const decoder = new TextDecoder();
-    let done = false;
-
-    while (!done) {
-      const { value, done: doneReading } = await reader.read();
-      done = doneReading;
-      const chunkValue = decoder.decode(value);
-      setAnswer((prev) => prev + chunkValue);
-    }
-
-    inputRef.current?.focus();
+    setAnswer((prev: string) => prev + decoder.decode(result.value));
+    reader.read().then((result) => handleStream(result, reader, decoder));
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      if (mode === "search") {
-        handleSearch();
-      } else {
-        handleAnswer();
-      }
+      mode === "search" ? handleSearch() : handleAnswer();
     }
   };
 
@@ -195,49 +114,25 @@ export default function Home() {
       alert("Please enter a valid API key.");
       return;
     }
-
-    localStorage.setItem("PG_KEY", apiKey);
-    localStorage.setItem("PG_MATCH_COUNT", matchCount.toString());
-    localStorage.setItem("PG_MODE", mode);
-
+    saveSettings(apiKey, matchCount, mode);
     setShowSettings(false);
     inputRef.current?.focus();
   };
 
   const handleClear = () => {
-    localStorage.removeItem("PG_KEY");
-    localStorage.removeItem("PG_MATCH_COUNT");
-    localStorage.removeItem("PG_MODE");
-
+    clearSettings();
     setApiKey("");
     setMatchCount(1);
     setMode("search");
   };
 
-  useEffect(() => {
-    if (matchCount > 10) {
-      setMatchCount(10);
-    } else if (matchCount < 1) {
-      setMatchCount(1);
-    }
-  }, [matchCount]);
 
   useEffect(() => {
-    const PG_KEY = localStorage.getItem("PG_KEY");
-    const PG_MATCH_COUNT = localStorage.getItem("PG_MATCH_COUNT");
-    const PG_MODE = localStorage.getItem("PG_MODE");
+    const { PG_KEY, PG_MATCH_COUNT, PG_MODE } = loadSettings();
 
-    if (PG_KEY) {
-      setApiKey(PG_KEY);
-    }
-
-    if (PG_MATCH_COUNT) {
-      setMatchCount(parseInt(PG_MATCH_COUNT));
-    }
-
-    if (PG_MODE) {
-      setMode(PG_MODE as "search" | "chat");
-    }
+    if (PG_KEY) setApiKey(PG_KEY);
+    if (PG_MATCH_COUNT) setMatchCount(parseInt(PG_MATCH_COUNT));
+    if (PG_MODE) setMode(PG_MODE as "search" | "chat");
 
     inputRef.current?.focus();
   }, []);
@@ -408,7 +303,7 @@ export default function Home() {
                                   <div className="mt-1 font-bold text-sm">{chapter.video_date}</div>
 
                                   <div className="mt-1 text-sm">
-                                    {chapter.video_title}
+                                    {chapter.video_title.split('|')[0]}
                                   </div>
                                 </div>
 
@@ -420,7 +315,7 @@ export default function Home() {
                                 </a>
                               </div>
 
-                              {selectedChapterIndex === index && <div className="mt-2">{formatChapterUI(chapter)}</div>}
+                              {selectedChapterIndex === index && <div className="mt-2">{formatChapterUI(chapter,chapter.video_title.split(':')[0])}</div>}
                             </div>
                           </div>
                       ))}
@@ -446,7 +341,7 @@ export default function Home() {
                                 <IconExternalLink />
                               </a>
                             </div>
-                            <div className="mt-2">{formatChapterUI(video)}</div>
+                            <div className="mt-2">{formatChapterUI(video,video.video_title.split(':')[0])}</div>
                           </div>
                         </div>
                     ))}
