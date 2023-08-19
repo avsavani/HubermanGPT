@@ -1,5 +1,6 @@
 export enum OpenAIModel {
-  DAVINCI_TURBO = "gpt-3.5-turbo"
+  DAVINCI_TURBO = "gpt-3.5-turbo",
+  GPT_3_16K = "gpt-3.5-turbo-16k"
 }
 
 export type HLVideo = {
@@ -24,7 +25,9 @@ export type HLChapter = {
   conversation_length: number;
   conversation_tokens: number;
   embedding: number[];
+  summary: string;
 };
+
 
 export type HLSegment = {
   start: number; // float in seconds
