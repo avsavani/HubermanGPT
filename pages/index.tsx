@@ -229,11 +229,12 @@ export default function Home(): JSX.Element {
 
               {apiKey.length === 51 ? (
                   <div className="relative w-full mt-4">
-                    <IconSearch className="absolute top-3 w-10 left-1 h-6 rounded-full opacity-50 sm:left-3 sm:top-4 sm:h-8" />
-
+                    <IconSearch className="absolute top-1/2 left-3 transform -translate-y-1/2 w-6 h-6 text-gray-400" />
                     <input
                         ref={inputRef}
-                        className="h-12 w-full rounded-full border border-zinc-600 pr-12 pl-11 focus:border-zinc-800 focus:outline-none focus:ring-1 focus:ring-zinc-800 sm:h-16 sm:py-2 sm:pr-16 sm:pl-16 sm:text-lg"
+                        className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 pl-16 pr-12
+                        leading-tight focus:outline-none focus:bg-white focus:border-gray-500
+                        sm:mt-0 sm:rounded-full sm:pl-20 sm:pr-16"
                         type="text"
                         placeholder="How to fall asleep faster?"
                         value={query}
@@ -241,13 +242,15 @@ export default function Home(): JSX.Element {
                         onKeyDown={handleKeyDown}
                     />
 
-                    <button>
+                    <button className="absolute top-1/2 right-2 transform -translate-y-1/2">
                       <IconArrowRight
                           onClick={mode === "search" ? handleSearch : handleAnswer}
-                          className="absolute right-2 top-2.5 h-7 w-7 rounded-full bg-blue-500 p-1 hover:cursor-pointer hover:bg-blue-600 sm:right-3 sm:top-3 sm:h-10 sm:w-10 text-white"
+                          className="h-5 w-5 rounded-full bg-blue-500
+                          hover:cursor-pointer hover:bg-blue-600 sm:h-8 sm:w-8 text-white"
                       />
                     </button>
                   </div>
+
               ) : (
                   <div className="text-center font-bold text-3xl mt-7">
                     Please enter your
@@ -295,29 +298,34 @@ export default function Home(): JSX.Element {
                       <div className="font-bold text-2xl">Passages</div>
 
                       {chapters.map((chapter, index) => (
-                          <div key={index} onClick={() => handleChapterClick(index)}>
-                            <div className="mt-4 border border-zinc-600 rounded-lg p-4">
-                              <div className="flex justify-between">
-                                <div>
-                                  <div className="font-bold text-xl">{chapter.chapter_title}</div>
-                                  <div className="mt-1 font-bold text-sm">{chapter.video_date}</div>
-
-                                  <div className="mt-1 text-sm">
-                                    {chapter.video_title.split('|')[0]}
-                                  </div>
+                          <div
+                              key={index}
+                              className={`mt-4 border border-zinc-600 rounded-lg p-4 transition-all duration-500 ${selectedChapterIndex === index ? 'bg-blue-100' : ''} ${answer ? 'animate-slideUp' : ''}`}
+                              onClick={() => handleChapterClick(index)}
+                          >
+                            <div className="flex justify-between">
+                              <div>
+                                <div className="font-bold text-xl">{chapter.chapter_title}</div>
+                                <div className="mt-1 font-bold text-sm">{chapter.video_date}</div>
+                                <div className="mt-1 text-sm">
+                                  {chapter.video_title.split('|')[0].split('｜')[0]}
                                 </div>
-
-                                <a className="hover:opacity-50 ml-2"
-                                   href={`https://www.youtube.com/watch?v=${chapter.video_id}&t=${Math.round(parseFloat(chapter.start_time))}s`}
-                                   target="_blank"
-                                   rel="noreferrer">
-                                  <IconExternalLink />
-                                </a>
                               </div>
+                              <a className="hover:opacity-50 ml-2"
+                                 href={`https://www.youtube.com/watch?v=${chapter.video_id}&t=${Math.round(parseFloat(chapter.start_time))}s`}
+                                 target="_blank"
+                                 rel="noreferrer">
+                                <IconExternalLink />
+                              </a>
+                            </div>
 
-                              {selectedChapterIndex === index && <div className="mt-2">{formatChapterUI(chapter,chapter.video_title.split(':')[0])}</div>}
+                            <div
+                                className={`passage-content ${selectedChapterIndex === index ? 'h-auto mt-2' : 'h-0'} overflow-hidden`}
+                            >
+                              {formatChapterUI(chapter, chapter.video_title.split(':')[0].split('：')[0])}
                             </div>
                           </div>
+
                       ))}
                     </div>
                   </div>
