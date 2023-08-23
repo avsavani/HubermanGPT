@@ -232,15 +232,16 @@ export default function Home(): JSX.Element {
                     <IconSearch className="absolute top-1/2 left-3 transform -translate-y-1/2 w-6 h-6 text-gray-400" />
                     <input
                         ref={inputRef}
-                        className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 pl-16 pr-12
-                        leading-tight focus:outline-none focus:bg-white focus:border-gray-500
-                        sm:mt-0 sm:rounded-full sm:pl-20 sm:pr-16"
+                        className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 pl-10 pr-12
+                        leading-tight focus:outline-none focus:bg-white focus:border-gray-500sm:mt-0 sm:rounded-full
+                        sm:pl-10 sm:pr-16"
                         type="text"
                         placeholder="How to fall asleep faster?"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                         onKeyDown={handleKeyDown}
                     />
+
 
                     <button className="absolute top-1/2 right-2 transform -translate-y-1/2">
                       <IconArrowRight

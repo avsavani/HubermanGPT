@@ -1,6 +1,6 @@
 import { supabaseAdmin } from "@/utils";
 import * as process from "process";
-import {HLChapter} from "@/types";
+import { HLChapter } from "@/types";
 
 export const config = {
   runtime: "edge"
@@ -14,9 +14,15 @@ const handler = async (req: Request): Promise<Response> => {
       matches: number;
     };
 
+    // Insert the query into the `queries` table in Supabase asynchronously
+    const { error: insertError } = await supabaseAdmin.from('queries').insert([{ query_text: query }]);
+
+    if (insertError) {
+      console.error('Error inserting query into database:', insertError);
+    }
+
     const input = query.replace(/\n/g, " ");
     const apiKe = process.env.OPENAI_API_KEY!;
-    console.log("the api ke",apiKe)
     const res = await fetch("https://api.openai.com/v1/embeddings", {
       headers: {
         "Content-Type": "application/json",
@@ -37,7 +43,7 @@ const handler = async (req: Request): Promise<Response> => {
       similarity_threshold: 0.01,
       match_count: matches
     });
-    console.log("the chunks",chunks.map((c:HLChapter)=>c.chapter_title))
+
     if (error) {
       console.error(error);
       return new Response("Error", { status: 500 });
