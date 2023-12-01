@@ -1,6 +1,7 @@
 export enum OpenAIModel {
   DAVINCI_TURBO = "gpt-3.5-turbo",
-  GPT_3_16K = "gpt-3.5-turbo-16k"
+  GPT_3_16K = "gpt-3.5-turbo-16k",
+  GPT_4_Turbo = "gpt-4-1106-preview"
 }
 
 export type HLVideo = {
