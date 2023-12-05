@@ -60,7 +60,7 @@ export default function Home(): JSX.Element {
       const results = await searchChapters(apiKey, query, matchCount);
       console.log(results);
       setChapters(results);
-      
+
     } catch (error) {
       setLoading(false);
       console.error(error);
@@ -79,21 +79,25 @@ export default function Home(): JSX.Element {
     try {
       const results = await searchChapters(apiKey, query, matchCount);
       setChapters(results);
-      const prompt = `Use the following passages to provide an answer to the query: "${query}"${results?.map(formatChapter).join('\n\n')}`;
+      
+      const prompt = `QUERY:"${query}" \n\n Use the following passages to provide an answer to the query: ${results?.map(formatChapter).join('\n\n')}`;
       const stream = await fetchAnswer(apiKey, prompt);
+
       if (stream) {
         const reader = stream.getReader();
         const decoder = new TextDecoder("utf-8");
 
         reader.read().then((result) => handleStream(result, reader, decoder));
+      } else {
+        throw new Error('Stream is not available');
       }
 
-      setLoading(false);
-
-      setLoading(false);
     } catch (error) {
       setLoading(false);
       console.error(error);
+      alert('An error occurred while fetching the answer.');
+    } finally {
+      setLoading(false);
     }
   };
 
