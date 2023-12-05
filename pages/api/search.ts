@@ -1,6 +1,5 @@
 import { supabaseAdmin } from "@/utils";
 import * as process from "process";
-import { HLChapter } from "@/types";
 
 export const config = {
   runtime: "edge"
@@ -15,11 +14,11 @@ const handler = async (req: Request): Promise<Response> => {
     };
 
     // Insert the query into the `queries` table in Supabase asynchronously
-    const { error: insertError } = await supabaseAdmin.from('queries').insert([{ query_text: query }]);
+    // const { error: insertError } = await supabaseAdmin.from('queries').insert([{ query_text: query }]);
 
-    if (insertError) {
-      console.error('Error inserting query into database:', insertError);
-    }
+    // if (insertError) {
+    //   console.error('Error inserting query into database:', insertError);
+    // }
 
     const input = query.replace(/\n/g, " ");
     const apiKe = process.env.OPENAI_API_KEY!;

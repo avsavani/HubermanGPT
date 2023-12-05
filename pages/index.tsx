@@ -23,6 +23,8 @@ export default function Home(): JSX.Element {
   const [matchCount, setMatchCount] = useState<number>(5);
   const [apiKey, setApiKey] = useState<string>("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");
   const [selectedChapterIndex, setSelectedChapterIndex] = useState<number|null>(null);
+  const [streamComplete, setStreamComplete] = useState(false);
+
 
 
   const formatSegment = (segment: HLSegment, index: number,speaker:string) => (
@@ -41,6 +43,23 @@ export default function Home(): JSX.Element {
     setSelectedChapterIndex(selectedChapterIndex === index ? null : index);
   };
 
+  const storeQueryAndAnswer = async (query: string, answer: string) => {
+    try {
+      const response = await fetch('/api/store', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ query, answer, apiKey }),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to store query and answer');
+      }
+    } catch (error) {
+      console.error('Error storing query and answer:', error);
+    }
+  };
+  
   const formatChapter = (chapter: HLChapter) => {
     const segmentsText = chapter.conversation.map((segment, index) => {
       const speakerName = segment.speaker === "SPEAKER_01" ? chapter.video_title.split(':')[0] : "Dr. Huberman";
@@ -84,7 +103,6 @@ export default function Home(): JSX.Element {
     setLoading(true);
     try {
       const results = await searchChapters(apiKey, query, matchCount);
-      console.log(results);
       setChapters(results);
       
       const prompt = `QUERY:"${query}" \n\n Use the following passages to provide an answer to the query: ${results?.map(formatChapter).join('\n\n')}`;
@@ -110,12 +128,20 @@ export default function Home(): JSX.Element {
   };
 
   // @ts-ignore
-  const handleStream = (result: ReadableStreamDefaultReadResult<Uint8Array>, reader: ReadableStreamDefaultReader<Uint8Array>, decoder: TextDecoder): void => {
-    if (result.done) return;
+const handleStream = async (result: ReadableStreamDefaultReadResult<Uint8Array>, reader: ReadableStreamDefaultReader<Uint8Array>, decoder: TextDecoder): Promise<void> => {
+  if (result.done) {
+    setStreamComplete(true); // Indicate that streaming is complete
+    return;
+  }
 
-    setAnswer((prev: string) => prev + decoder.decode(result.value));
-    reader.read().then((result) => handleStream(result, reader, decoder));
-  };
+  // Decode the current chunk and update the answer state
+  const decodedValue = decoder.decode(result.value, { stream: true });
+  setAnswer((prevAnswer) => prevAnswer + decodedValue);
+
+  // Continue reading the stream
+  const nextResult = await reader.read();
+  handleStream(nextResult, reader, decoder);
+};
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -140,6 +166,14 @@ export default function Home(): JSX.Element {
     setMode("search");
   };
 
+  // pages/index.tsx
+  useEffect(() => {
+    if (streamComplete) {
+      // Call storeQueryAndAnswer when the stream is complete and answer is updated
+      storeQueryAndAnswer(query, answer).catch(console.error);
+      setStreamComplete(false); // Reset the flag
+    }
+  }, [streamComplete, answer, query, storeQueryAndAnswer]);
 
   useEffect(() => {
     const { PG_KEY, PG_MATCH_COUNT, PG_MODE } = loadSettings();
