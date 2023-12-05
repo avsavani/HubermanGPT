@@ -1,6 +1,8 @@
 import React, { KeyboardEvent, useEffect, useRef, useState } from "react";
 import { IconArrowRight, IconExternalLink, IconSearch } from "@tabler/icons-react";
 import Head from "next/head";
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 import {searchChapters, fetchAnswer} from '@/services/apiService';
 import {loadSettings, saveSettings, clearSettings} from '@/services/settingsService';
@@ -40,12 +42,16 @@ export default function Home(): JSX.Element {
   };
 
   const formatChapter = (chapter: HLChapter) => {
-    const segments = chapter.conversation.map((segment, index) => formatSegment(segment, index, chapter.video_title.split(':')[0])).join('<br \>');
+    const segmentsText = chapter.conversation.map((segment, index) => {
+      const speakerName = segment.speaker === "SPEAKER_01" ? chapter.video_title.split(':')[0] : "Dr. Huberman";
+      return `${speakerName}: ${segment.segment}`;
+    }).join('\n'); // Use '\n' for new lines instead of '<br \>'
+  
     return `Video Title: ${chapter.video_title}
-              Chapter Title: ${chapter.chapter_title}
-              Video Date: ${chapter.video_date}
-              Conversation:
-              ${segments}`;
+            Chapter Title: ${chapter.chapter_title}
+            Video Date: ${chapter.video_date}
+            Conversation:
+            ${segmentsText}`;
   };
 
   const handleSearch = async (): Promise<void> => {
@@ -78,9 +84,11 @@ export default function Home(): JSX.Element {
     setLoading(true);
     try {
       const results = await searchChapters(apiKey, query, matchCount);
+      console.log(results);
       setChapters(results);
       
       const prompt = `QUERY:"${query}" \n\n Use the following passages to provide an answer to the query: ${results?.map(formatChapter).join('\n\n')}`;
+      console.log(prompt);
       const stream = await fetchAnswer(apiKey, prompt);
 
       if (stream) {
@@ -299,7 +307,9 @@ export default function Home(): JSX.Element {
               ) : answer ? (
                   <div className="mt-6">
                     <div className="font-bold text-2xl mb-2">Answer</div>
-                    <Answer text={answer} />
+                    <div className="prose">
+                      <ReactMarkdown remarkPlugins={[remarkGfm]}>{answer}</ReactMarkdown>
+                    </div>
 
                     <div className="mt-6 mb-16">
                       <div className="font-bold text-2xl">Passages</div>
