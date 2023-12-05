@@ -58,7 +58,9 @@ export default function Home(): JSX.Element {
     setLoading(true);
     try {
       const results = await searchChapters(apiKey, query, matchCount);
+      console.log(results);
       setChapters(results);
+      
     } catch (error) {
       setLoading(false);
       console.error(error);
