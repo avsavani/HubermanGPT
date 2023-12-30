@@ -10007,3 +10007,19 @@
 {"level":"info","message":"Skipping processed chapter Video:Dr. Andy Galpin： Optimize You... chapter Tool: 5/6-Day Weekly Training......"}
 {"level":"info","message":"Skipping processed chapter Video:Dr. Andy Galpin： Optimize You... chapter Program Modification, Balanci......"}
 {"level":"info","message":"Skipping processed chapter Video:Dr. Andy Galpin： Optimize You... chapter Zero-Cost Support, YouTube Fe......"}
+{"level":"error","message":"Error processing file /Users/ashishsavani/hl-gpt/xTtM2AvCRyA.json: Error: supabaseUrl is required."}
+{"level":"error","message":"Failed to save video AMA #13: Winter Months & Sick... chapter Introduction: Column 'videoId' of relation 'chapters' does not exist"}
+{"level":"error","message":"Failed to save video AMA #13: Winter Months & Sick... chapter Does Cold Weather Make You Si...: Column 'videoId' of relation 'chapters' does not exist"}
+{"level":"error","message":"Failed to save video AMA #13: Winter Months & Sick... chapter Huberman Lab Premium: Column 'videoId' of relation 'chapters' does not exist"}
+{"level":"error","message":"Failed to save video AMA #13: Winter Months & Sick... chapter Introduction: Column 'videoId' of relation 'chapters' does not exist"}
+{"level":"error","message":"Failed to save video AMA #13: Winter Months & Sick... chapter Does Cold Weather Make You Si...: Column 'videoId' of relation 'chapters' does not exist"}
+{"level":"error","message":"Failed to save video AMA #13: Winter Months & Sick... chapter Huberman Lab Premium: Column 'videoId' of relation 'chapters' does not exist"}
+{"level":"error","message":"Failed to save video AMA #13: Winter Months & Sick... chapter Introduction: Column 'videoId' of relation 'chapters' does not exist"}
+{"level":"error","message":"Failed to save video AMA #13: Winter Months & Sick... chapter Does Cold Weather Make You Si...: Column 'videoId' of relation 'chapters' does not exist"}
+{"level":"error","message":"Failed to save video AMA #13: Winter Months & Sick... chapter Huberman Lab Premium: Column 'videoId' of relation 'chapters' does not exist"}
+{"details":null,"level":"error","message":"Supabase Error: Column 'videoId' of relation 'chapters' does not exist","status":"PGRST204"}
+{"details":null,"level":"error","message":"Supabase Error: Column 'videoId' of relation 'chapters' does not exist","status":"PGRST204"}
+{"details":null,"level":"error","message":"Supabase Error: Column 'videoId' of relation 'chapters' does not exist","status":"PGRST204"}
+{"level":"info","message":"Successfully processed video AMA #13: Winter Months & Sick... chapter Introduction"}
+{"level":"info","message":"Successfully processed video AMA #13: Winter Months & Sick... chapter Does Cold Weather Make You Si..."}
+{"level":"info","message":"Successfully processed video AMA #13: Winter Months & Sick... chapter Huberman Lab Premium"}

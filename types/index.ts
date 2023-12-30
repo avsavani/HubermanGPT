@@ -52,3 +52,49 @@ export type Settings = {
   PG_MODE: string | null,
 }
 
+
+type Conversation = {
+  end: number;
+  segment: string;
+  speaker: number;
+  start: number;
+};
+
+
+
+
+type Thumbnail = {
+  height: number;
+  url: string;
+  width: number;
+};
+
+
+type Chapter = {
+  conversations: Conversation[];
+  title: string;
+};
+
+type Channel = {
+  id: string;
+  link: string;
+  name: string;
+};
+
+type Accessibility = {
+  duration: string;
+  title: string;
+};
+
+export type VideoData = {
+  accessibility: Accessibility;
+  channel: Channel;
+  chapters: Chapter[];
+  duration: string;
+  id: string;
+  isPlayable: boolean;
+  link: string;
+  thumbnails: Thumbnail[];
+  title: string;
+};
+

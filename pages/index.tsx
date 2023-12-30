@@ -1,5 +1,5 @@
 import React, { KeyboardEvent, useEffect, useRef, useState } from "react";
-import { IconArrowRight, IconExternalLink, IconSearch } from "@tabler/icons-react";
+import { IconArrowRight, IconExternalLink, IconSearch, IconThumbUpFilled, IconThumbDownFilled } from "@tabler/icons-react";
 import Head from "next/head";
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -24,7 +24,7 @@ export default function Home(): JSX.Element {
   const [apiKey, setApiKey] = useState<string>("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");
   const [selectedChapterIndex, setSelectedChapterIndex] = useState<number|null>(null);
   const [streamComplete, setStreamComplete] = useState(false);
-
+  const [feedbackGiven, setFeedbackGiven] = useState<boolean>(false);
 
 
   const formatSegment = (segment: HLSegment, index: number,speaker:string) => (
@@ -43,6 +43,7 @@ export default function Home(): JSX.Element {
     setSelectedChapterIndex(selectedChapterIndex === index ? null : index);
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const storeQueryAndAnswer = async (query: string, answer: string) => {
     try {
       const response = await fetch('/api/store', {
@@ -59,6 +60,16 @@ export default function Home(): JSX.Element {
       console.error('Error storing query and answer:', error);
     }
   };
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    if (streamComplete) {
+      // Call storeQueryAndAnswer when the stream is complete and answer is updated
+      storeQueryAndAnswer(query, answer).catch(console.error);
+      setStreamComplete(false); // Reset the flag
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [streamComplete, answer, query, apiKey]);
   
   const formatChapter = (chapter: HLChapter) => {
     const segmentsText = chapter.conversation.map((segment, index) => {
@@ -102,11 +113,11 @@ export default function Home(): JSX.Element {
     setChapters([]);
     setLoading(true);
     try {
+
       const results = await searchChapters(apiKey, query, matchCount);
       setChapters(results);
       
       const prompt = `QUERY:"${query}" \n\n Use the following passages to provide an answer to the query: ${results?.map(formatChapter).join('\n\n')}`;
-      console.log(prompt);
       const stream = await fetchAnswer(apiKey, prompt);
 
       if (stream) {
@@ -124,6 +135,7 @@ export default function Home(): JSX.Element {
       alert('An error occurred while fetching the answer.');
     } finally {
       setLoading(false);
+      setFeedbackGiven(false);
     }
   };
 
@@ -142,6 +154,20 @@ const handleStream = async (result: ReadableStreamDefaultReadResult<Uint8Array>,
   const nextResult = await reader.read();
   handleStream(nextResult, reader, decoder);
 };
+
+  const handleFeedback = async (feedback: 'up' | 'down',query:string,answer:string) => {
+    // Here you can handle the feedback logic, e.g., storing it or updating the UI
+    console.log(`Feedback given: ${feedback}`);
+    const response = await fetch('/api/feedback', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ query, answer, feedback }),
+    });
+    setFeedbackGiven(true); // Prevent further feedback
+
+  };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -344,6 +370,25 @@ const handleStream = async (result: ReadableStreamDefaultReadResult<Uint8Array>,
                     <div className="prose">
                       <ReactMarkdown remarkPlugins={[remarkGfm]}>{answer}</ReactMarkdown>
                     </div>
+
+                    {!feedbackGiven && (
+                      <div className="flex justify-center space-x-4 mt-4">
+                        <button
+                          className="rounded-full bg-green-500 p-2 text-white hover:bg-green-600"
+                          onClick={() => handleFeedback('up',query,answer)}
+                          aria-label="Thumbs up"
+                        >
+                          <IconThumbUpFilled />
+                        </button>
+                        <button
+                          className="rounded-full bg-red-500 p-2 text-white hover:bg-red-600"
+                          onClick={() => handleFeedback('down',query,answer)}
+                          aria-label="Thumbs down"
+                        >
+                          <IconThumbDownFilled />
+                        </button>
+                      </div>
+                    )}
 
                     <div className="mt-6 mb-16">
                       <div className="font-bold text-2xl">Passages</div>
