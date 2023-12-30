@@ -1,8 +1,6 @@
 import React, { KeyboardEvent, useEffect, useRef, useState } from "react";
-import { IconArrowRight, IconExternalLink, IconSearch, IconThumbUpFilled, IconThumbDownFilled } from "@tabler/icons-react";
+import { IconArrowRight, IconExternalLink, IconSearch } from "@tabler/icons-react";
 import Head from "next/head";
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 
 import {searchChapters, fetchAnswer} from '@/services/apiService';
 import {loadSettings, saveSettings, clearSettings} from '@/services/settingsService';
@@ -94,7 +92,6 @@ export default function Home(): JSX.Element {
     setLoading(true);
     try {
       const results = await searchChapters(apiKey, query, matchCount);
-      console.log(results);
       setChapters(results);
 
     } catch (error) {
@@ -119,14 +116,11 @@ export default function Home(): JSX.Element {
       
       const prompt = `QUERY:"${query}" \n\n Use the following passages to provide an answer to the query: ${results?.map(formatChapter).join('\n\n')}`;
       const stream = await fetchAnswer(apiKey, prompt);
-
       if (stream) {
         const reader = stream.getReader();
         const decoder = new TextDecoder("utf-8");
 
         reader.read().then((result) => handleStream(result, reader, decoder));
-      } else {
-        throw new Error('Stream is not available');
       }
 
     } catch (error) {
@@ -155,7 +149,7 @@ const handleStream = async (result: ReadableStreamDefaultReadResult<Uint8Array>,
   handleStream(nextResult, reader, decoder);
 };
 
-  const handleFeedback = async (feedback: 'up' | 'down',query:string,answer:string) => {
+const handleFeedback = async (feedback: 'up' | 'down',query:string,answer:string) => {
     // Here you can handle the feedback logic, e.g., storing it or updating the UI
     console.log(`Feedback given: ${feedback}`);
     const response = await fetch('/api/feedback', {
