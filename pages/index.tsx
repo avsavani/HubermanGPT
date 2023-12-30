@@ -1,14 +1,17 @@
 import React, { KeyboardEvent, useEffect, useRef, useState } from "react";
-import { IconArrowRight, IconExternalLink, IconSearch } from "@tabler/icons-react";
+import { IconArrowRight, IconExternalLink, IconSearch, IconThumbDownFilled, IconThumbUpFilled } from "@tabler/icons-react";
 import Head from "next/head";
 
 import {searchChapters, fetchAnswer} from '@/services/apiService';
 import {loadSettings, saveSettings, clearSettings} from '@/services/settingsService';
 
+import remarkGfm from 'remark-gfm'
+
 import { Answer } from "@/components/Answer/Answer";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import {HLChapter,HLSegment} from "@/types";
+import ReactMarkdown from "react-markdown";
 
 export default function Home(): JSX.Element {
   const inputRef = useRef<HTMLInputElement>(null);
