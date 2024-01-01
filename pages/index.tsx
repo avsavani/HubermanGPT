@@ -1,7 +1,8 @@
 import React, { KeyboardEvent, useEffect, useRef, useState } from "react";
-import { IconArrowRight, IconExternalLink, IconSearch, IconThumbDownFilled, IconThumbUpFilled } from "@tabler/icons-react";
+import { IconArrowRight, IconClipboard, IconExternalLink, IconSearch, IconThumbDownFilled, IconThumbUpFilled } from "@tabler/icons-react";
 import Head from "next/head";
-
+import '@radix-ui/themes/styles.css';
+import { Button } from '@radix-ui/themes'
 import {searchChapters, fetchAnswer} from '@/services/apiService';
 import {loadSettings, saveSettings, clearSettings} from '@/services/settingsService';
 
@@ -26,7 +27,7 @@ export default function Home(): JSX.Element {
   const [selectedChapterIndex, setSelectedChapterIndex] = useState<number|null>(null);
   const [streamComplete, setStreamComplete] = useState(false);
   const [feedbackGiven, setFeedbackGiven] = useState<boolean>(false);
-
+  const [isCopied, setIsCopied] = useState<boolean>(false);
 
   const formatSegment = (segment: HLSegment, index: number,speaker:string) => (
       <React.Fragment key={index}>
@@ -59,6 +60,16 @@ export default function Home(): JSX.Element {
       }
     } catch (error) {
       console.error('Error storing query and answer:', error);
+    }
+  };
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(answer);
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 2000); // Reset after 2 seconds
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
     }
   };
 
@@ -367,25 +378,34 @@ const handleFeedback = async (feedback: 'up' | 'down',query:string,answer:string
                     <div className="prose">
                       <ReactMarkdown remarkPlugins={[remarkGfm]}>{answer}</ReactMarkdown>
                     </div>
+                    <div className="flex justify-between items-center py-5">
+  <Button radius= "small" variant="soft" size="3" className="mt-4 p-5" 
+    color={isCopied ? 'green' : 'blue'}
+    onClick={handleCopy}
+  >
+    {isCopied ? 'Copied!' : 'Copy'}
+    <IconClipboard className="ml-2" />
+  </Button>
 
-                    {!feedbackGiven && (
-                      <div className="flex justify-center space-x-4 mt-4">
-                        <button
-                          className="rounded-full bg-green-500 p-2 text-white hover:bg-green-600"
-                          onClick={() => handleFeedback('up',query,answer)}
-                          aria-label="Thumbs up"
-                        >
-                          <IconThumbUpFilled />
-                        </button>
-                        <button
-                          className="rounded-full bg-red-500 p-2 text-white hover:bg-red-600"
-                          onClick={() => handleFeedback('down',query,answer)}
-                          aria-label="Thumbs down"
-                        >
-                          <IconThumbDownFilled />
-                        </button>
-                      </div>
-                    )}
+  {!feedbackGiven && (
+    <div className="flex space-x-4">
+      <button
+        className="rounded-full bg-green-500 p-2 text-white hover:bg-green-600"
+        onClick={() => handleFeedback('up',query,answer)}
+        aria-label="Thumbs up"
+      >
+        <IconThumbUpFilled />
+      </button>
+      <button
+        className="rounded-full bg-red-500 p-2 text-white hover:bg-red-600"
+        onClick={() => handleFeedback('down',query,answer)}
+        aria-label="Thumbs down"
+      >
+        <IconThumbDownFilled />
+      </button>
+    </div>
+  )}
+</div>
 
                     <div className="mt-6 mb-16">
                       <div className="font-bold text-2xl">Passages</div>

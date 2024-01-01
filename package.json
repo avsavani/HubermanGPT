@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@next/font": "^13.2.3",
+    "@radix-ui/primitive": "^1.0.1",
+    "@radix-ui/themes": "^2.0.3",
     "@tabler/icons-react": "^2.4.0",
     "@types/node": "18.14.0",
     "@types/react": "18.0.28",
