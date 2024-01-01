@@ -3,6 +3,7 @@ import { IconArrowRight, IconClipboard, IconExternalLink, IconSearch, IconThumbD
 import Head from "next/head";
 import '@radix-ui/themes/styles.css';
 import { Button } from '@radix-ui/themes'
+import { IconMessage2 } from "@tabler/icons-react";
 import {searchChapters, fetchAnswer} from '@/services/apiService';
 import {loadSettings, saveSettings, clearSettings} from '@/services/settingsService';
 
@@ -315,7 +316,7 @@ const handleFeedback = async (feedback: 'up' | 'down',query:string,answer:string
                     <input
                         ref={inputRef}
                         className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 pl-10 pr-12
-                        leading-tight focus:outline-none focus:bg-white focus:border-gray-500sm:mt-0 sm:rounded-full
+                        leading-tight focus:outline-1 focus:bg-white focus:border-gray-500sm:mt-0 
                         sm:pl-10 sm:pr-16"
                         type="text"
                         placeholder="How to fall asleep faster?"
@@ -326,10 +327,10 @@ const handleFeedback = async (feedback: 'up' | 'down',query:string,answer:string
 
 
                     <button className="absolute top-1/2 right-2 transform -translate-y-1/2">
-                      <IconArrowRight
+                      <IconMessage2
                           onClick={mode === "search" ? handleSearch : handleAnswer}
-                          className="h-5 w-5 rounded-full bg-blue-500
-                          hover:cursor-pointer hover:bg-blue-600 sm:h-8 sm:w-8 text-white"
+                          className="h-5 w-5
+                          hover:cursor-pointer sm:h-8 sm:w-8 text-gray-500"
                       />
                     </button>
                   </div>
