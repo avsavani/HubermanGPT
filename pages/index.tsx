@@ -6,7 +6,7 @@ import { Button } from '@radix-ui/themes'
 import { IconMessage2 } from "@tabler/icons-react";
 import {searchChapters, fetchAnswer} from '@/services/apiService';
 import {loadSettings, saveSettings, clearSettings} from '@/services/settingsService';
-
+import Image from 'next/image'; 
 import remarkGfm from 'remark-gfm'
 
 import { Answer } from "@/components/Answer/Answer";
@@ -427,10 +427,12 @@ const handleFeedback = async (feedback: 'up' | 'down',query:string,answer:string
                                   <div 
                                     style={{background: '#000', width: '128px', height: '72px', borderRadius: '0.5rem', border: '1px solid black'}}
                                   >
-                                    <img 
+                                    <Image 
                                       src={`https://i.ytimg.com/vi/${chapter.video_id}/hqdefault.jpg`} 
                                       alt="Video thumbnail" 
                                       className={`w-full h-full object-cover rounded-lg transition-all duration-500`} 
+                                      width={128} // specify the width
+                                      height={72} // specify the height
                                     />
                                   </div>
                                 </a>
