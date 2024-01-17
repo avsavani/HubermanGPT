@@ -418,17 +418,21 @@ const handleFeedback = async (feedback: 'up' | 'down',query:string,answer:string
                               onClick={() => handleChapterClick(index)}
                           >
                             <div className="flex justify-between">
-                              <div className="flex items-center">
+                              <div className="flex items-start"> 
                                 <a 
                                   href={`https://www.youtube.com/watch?v=${chapter.video_id}&t=${Math.round(parseFloat(chapter.start_time))}s`}
                                   target="_blank"
                                   rel="noreferrer"
                                 >
-                                  <img 
-                                    src={`https://i.ytimg.com/vi/${chapter.video_id}/hqdefault.jpg`} 
-                                    alt="Video thumbnail" 
-                                    className={`w-32 h-20 object-cover rounded ${selectedChapterIndex === index ? 'w-24 h-16' : ''} transition-all duration-500`}
-                                  />
+                                  <div 
+                                    style={{background: '#000', width: '128px', height: '72px', borderRadius: '0.5rem', border: '1px solid black'}}
+                                  >
+                                    <img 
+                                      src={`https://i.ytimg.com/vi/${chapter.video_id}/hqdefault.jpg`} 
+                                      alt="Video thumbnail" 
+                                      className={`w-full h-full object-cover rounded-lg transition-all duration-500`} 
+                                    />
+                                  </div>
                                 </a>
                                 <div className="ml-4">
                                   <div className="font-bold text-xl">{chapter.chapter_title}</div>
