@@ -1,5 +1,5 @@
 import React, { KeyboardEvent, useEffect, useRef, useState } from "react";
-import { IconArrowRight, IconClipboard, IconExternalLink, IconSearch, IconThumbDownFilled, IconThumbUpFilled } from "@tabler/icons-react";
+import { IconClipboard, IconExternalLink, IconSearch, IconThumbDownFilled, IconThumbUpFilled } from "@tabler/icons-react";
 import Head from "next/head";
 import '@radix-ui/themes/styles.css';
 import { Button } from '@radix-ui/themes'
@@ -319,7 +319,7 @@ const handleFeedback = async (feedback: 'up' | 'down',query:string,answer:string
                         leading-tight focus:outline-1 focus:bg-white focus:border-gray-500sm:mt-0 
                         sm:pl-10 sm:pr-16"
                         type="text"
-                        placeholder="How to fall asleep faster?"
+                        placeholder="How can one improve sleep quality?"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                         onKeyDown={handleKeyDown}
@@ -418,11 +418,24 @@ const handleFeedback = async (feedback: 'up' | 'down',query:string,answer:string
                               onClick={() => handleChapterClick(index)}
                           >
                             <div className="flex justify-between">
-                              <div>
-                                <div className="font-bold text-xl">{chapter.chapter_title}</div>
-                                <div className="mt-1 font-bold text-sm">{chapter.video_date}</div>
-                                <div className="mt-1 text-sm">
-                                  {chapter.video_title.split('|')[0].split('｜')[0]}
+                              <div className="flex items-center">
+                                <a 
+                                  href={`https://www.youtube.com/watch?v=${chapter.video_id}&t=${Math.round(parseFloat(chapter.start_time))}s`}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                >
+                                  <img 
+                                    src={`https://i.ytimg.com/vi/${chapter.video_id}/hqdefault.jpg`} 
+                                    alt="Video thumbnail" 
+                                    className={`w-32 h-20 object-cover rounded ${selectedChapterIndex === index ? 'w-24 h-16' : ''} transition-all duration-500`}
+                                  />
+                                </a>
+                                <div className="ml-4">
+                                  <div className="font-bold text-xl">{chapter.chapter_title}</div>
+                                  <div className="mt-1 font-bold text-sm">{chapter.video_date}</div>
+                                  <div className="mt-1 text-sm">
+                                    {chapter.video_title.split('|')[0].split('｜')[0]}
+                                  </div>
                                 </div>
                               </div>
                               <a className="hover:opacity-50 ml-2"
