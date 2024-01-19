@@ -74,15 +74,7 @@ export default function Home(): JSX.Element {
     }
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => {
-    if (streamComplete) {
-      // Call storeQueryAndAnswer when the stream is complete and answer is updated
-      storeQueryAndAnswer(query, answer).catch(console.error);
-      setStreamComplete(false); // Reset the flag
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [streamComplete, answer, query, apiKey]);
+
   
   const formatChapter = (chapter: HLChapter) => {
     const segmentsText = chapter.conversation.map((segment, index) => {
