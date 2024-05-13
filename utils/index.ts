@@ -15,7 +15,7 @@ export const OpenAIStream = async (prompt: string, apiKey: string) => {
     },
     method: "POST",
     body: JSON.stringify({
-      model: OpenAIModel.GPT_4_Turbo,
+      model: OpenAIModel.GPT_4o,
       messages: [
         {
           role: "system",
