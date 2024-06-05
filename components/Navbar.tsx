@@ -7,7 +7,7 @@ export const Navbar: FC = () => {
             <div className="font-bold text-2xl flex items-center">
                 <a
                     className="hover:opacity-70 transition ease-in-out duration-150"
-                    href="https://hubermangpt.vercel.app"
+                    href="https://askhuberman.app"
                 >
                     Huberman GPT
                 </a>
