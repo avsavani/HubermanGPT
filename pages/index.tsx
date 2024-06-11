@@ -204,7 +204,7 @@ const handleFeedback = async (feedback: 'up' | 'down',query:string,answer:string
   }, [streamComplete, answer, query, storeQueryAndAnswer]);
 
   useEffect(() => {
-    const { PG_KEY, PG_MATCH_COUNT, PG_MODE } = loadSettings();
+    const { KEY: PG_KEY, MATCH_COUNT: PG_MATCH_COUNT, MODE: PG_MODE } = loadSettings();
 
     if (PG_KEY) setApiKey(PG_KEY);
     if (PG_MATCH_COUNT) setMatchCount(parseInt(PG_MATCH_COUNT));
@@ -400,10 +400,8 @@ const handleFeedback = async (feedback: 'up' | 'down',query:string,answer:string
     </div>
   )}
 </div>
-
                     <div className="mt-6 mb-16">
                       <div className="font-bold text-2xl">Passages</div>
-
                       {chapters.map((chapter, index) => (
                           <div
                               key={index}
@@ -420,12 +418,12 @@ const handleFeedback = async (feedback: 'up' | 'down',query:string,answer:string
                                   <div 
                                     style={{background: '#000', width: '128px', height: '72px', borderRadius: '0.5rem', border: '1px solid black'}}
                                   >
-                                    <Image 
-                                      src={`https://i.ytimg.com/vi/${chapter.video_id}/hqdefault.jpg`} 
-                                      alt="Video thumbnail" 
-                                      className={`w-full h-full object-cover rounded-lg transition-all duration-500`} 
-                                      width={128} // specify the width
-                                      height={72} // specify the height
+                                    <Image
+                                      src={`https://i.ytimg.com/vi/${chapter.video_id}/hqdefault.jpg`}
+                                      alt="Video thumbnail"
+                                      className={`w-full h-full object-cover rounded-lg transition-all duration-500`}
+                                      width={128}
+                                      height={72}
                                     />
                                   </div>
                                 </a>
@@ -444,14 +442,10 @@ const handleFeedback = async (feedback: 'up' | 'down',query:string,answer:string
                                 <IconExternalLink />
                               </a>
                             </div>
-
-                            <div
-                                className={`passage-content ${selectedChapterIndex === index ? 'h-auto mt-2' : 'h-0'} overflow-hidden`}
-                            >
+                            <div className={`passage-content ${selectedChapterIndex === index ? 'h-auto mt-2' : 'h-0'} overflow-hidden`}>
                               {formatChapterUI(chapter, chapter.video_title.split(':')[0].split('：')[0])}
                             </div>
                           </div>
-
                       ))}
                     </div>
                   </div>
