@@ -48,9 +48,9 @@ export type HLJSON = {
 };
 
 export type Settings = {
-  PG_KEY: string | null,
-  PG_MATCH_COUNT: string | null,
-  PG_MODE: string | null,
+  KEY: string | null,
+  MATCH_COUNT: string | null,
+  MODE: string | null,
 }
 
 

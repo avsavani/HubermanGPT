@@ -204,11 +204,11 @@ const handleFeedback = async (feedback: 'up' | 'down',query:string,answer:string
   }, [streamComplete, answer, query, storeQueryAndAnswer]);
 
   useEffect(() => {
-    const { KEY: PG_KEY, MATCH_COUNT: PG_MATCH_COUNT, MODE: PG_MODE } = loadSettings();
+    const { KEY: KEY, MATCH_COUNT: MATCH_COUNT, MODE: MODE } = loadSettings();
 
-    if (PG_KEY) setApiKey(PG_KEY);
-    if (PG_MATCH_COUNT) setMatchCount(parseInt(PG_MATCH_COUNT));
-    if (PG_MODE) setMode(PG_MODE as "search" | "chat");
+    if (KEY) setApiKey(KEY);
+    if (MATCH_COUNT) setMatchCount(parseInt(MATCH_COUNT));
+    if (MODE) setMode(MODE as "search" | "chat");
 
     inputRef.current?.focus();
   }, []);
