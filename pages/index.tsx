@@ -219,7 +219,7 @@ const handleFeedback = async (feedback: 'up' | 'down',query:string,answer:string
           <title>HubermanLab GPT</title>
           <meta
               name="description"
-              content={`AI-powered search and chat for Huberman Lab podcast.`}
+              content={`AI-powered search and chat.`}
           />
           <meta
               name="viewport"
