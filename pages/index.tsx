@@ -475,7 +475,16 @@ const handleFeedback = async (feedback: 'up' | 'down',query:string,answer:string
                     ))}
                   </div>
               ) : (
+                <>
                   <div className="mt-6 text-center text-lg">{`AI-powered search & chat for HubermanLab Podcast.`}</div>
+                  <div className="mt-6 max-w-2xl w-full">
+                    <div className="bg-gray-700 rounded-lg shadow-md p-6">
+                      <p className="text-2xl font-bold text-center text-gray-100">
+                        This website is not affiliated with hubermanlab.com
+                      </p>
+                    </div>
+                  </div>
+                </>
               )}
             </div>
           </div>

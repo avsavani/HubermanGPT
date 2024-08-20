@@ -17,14 +17,14 @@ export const Footer: FC = () => {
           >
             <b>Ashish Savani</b>
           </a>
-          , based on the HubermanLab podcast transcript
+          , based on the HubermanLab podcast transcript.
           <a
               className="hover:opacity-50 ml-1"
-              href="https://twitter.com/hubermanlab"
+              href="https://hubermanlab.com"
               target="_blank"
               rel="noreferrer"
           >
-            Dr. Andrew Huberman
+            Not affiliated with Huberman Lab.
           </a>
           .
         </div>
@@ -38,7 +38,6 @@ export const Footer: FC = () => {
           >
             <IconBrandTwitter size={24} />
           </a>
-
           <a
               className="flex items-center hover:opacity-50"
               href="https://github.com/avsavani/HubermanGPT"
@@ -47,7 +46,6 @@ export const Footer: FC = () => {
           >
             <IconBrandGithub size={24} />
           </a>
-
           {/* Buy Me a Coffee Button */}
           <a
               className="flex items-center hover:opacity-50"
