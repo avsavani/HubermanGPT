@@ -42,7 +42,7 @@ All code & data used is 100% open-source.
 
 The dataset is a CSV file containing all text & embeddings used.
 
-Download it [here](https://drive.google.com/drive/folders/1CKs1hzwMT34tnQjpsN40yxov4FLFT-BN?usp=share_link).
+Download it [here](https://drive.google.com/file/d/1iAoAo9Rx1WzcX7WFIDPwEUXbnA4f5Gg3/view?usp=sharing).
 
 I recommend getting familiar with fetching, cleaning, and storing data as outlined in the scraping and embedding scripts below, but feel free to skip those steps and just use the dataset.
 
