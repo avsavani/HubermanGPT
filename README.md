@@ -49,15 +49,17 @@ The dataset provides comprehensive information for each video chapter, including
 - **id**: Unique identifier for each chapter entry.
 - **video_title**: Title of the video (e.g., *Tony Hawk: Harnessing Passion, Drive & Persistence*).
 - **chapter_title**: Title of each chapter within the video, providing an overview of the topic.
-- **video_date**: Date of the video release. Contains some missing values.
+- **video_date**: Date of the video release. Currently NULL.
 - **video_id**: Unique identifier for each video.
 - **start_time** and **end_time**: Timestamps indicating the beginning and end of each chapter.
 - **conversation**: JSON-encoded transcript segments for each chapter.
 - **conversation_length**: Length of the conversation in characters.
 - **conversation_tokens**: Approximate token count, useful for NLP tasks.
 - **embedding**: Vector embeddings for each chapter, representing semantic content.
-- **summary**: Text summary of each chapter. Contains some missing values.
-- **summary_embedding**: Embedding vector for each summary.
+- **summary**: Text summary of each chapter. Currently NULL
+- **summary_embedding**: Embedding vector for each summary. 
+  
+For a detailed structure of the dataset, including all fields and their types, please check the [`types/index.ts`](./types/index.ts) file.
 
 ### Download
 
