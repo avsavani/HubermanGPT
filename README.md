@@ -1,3 +1,4 @@
+
 <!-- TABLE OF CONTENTS -->
 <details>
   <summary>Table of Contents</summary>
@@ -17,6 +18,7 @@
     </li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#dataset">Dataset</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -40,11 +42,28 @@ All code & data used is 100% open-source.
 
 ## Dataset
 
-The dataset is a CSV file containing all text & embeddings used.
+The dataset provides comprehensive information for each video chapter, including timestamps, transcripts, and semantic embeddings.
 
-Download it [here](https://drive.google.com/file/d/1iAoAo9Rx1WzcX7WFIDPwEUXbnA4f5Gg3/view?usp=sharing).
+### Dataset Details
 
-I recommend getting familiar with fetching, cleaning, and storing data as outlined in the scraping and embedding scripts below, but feel free to skip those steps and just use the dataset.
+- **id**: Unique identifier for each chapter entry.
+- **video_title**: Title of the video (e.g., *Tony Hawk: Harnessing Passion, Drive & Persistence*).
+- **chapter_title**: Title of each chapter within the video, providing an overview of the topic.
+- **video_date**: Date of the video release. Contains some missing values.
+- **video_id**: Unique identifier for each video.
+- **start_time** and **end_time**: Timestamps indicating the beginning and end of each chapter.
+- **conversation**: JSON-encoded transcript segments for each chapter.
+- **conversation_length**: Length of the conversation in characters.
+- **conversation_tokens**: Approximate token count, useful for NLP tasks.
+- **embedding**: Vector embeddings for each chapter, representing semantic content.
+- **summary**: Text summary of each chapter. Contains some missing values.
+- **summary_embedding**: Embedding vector for each summary.
+
+### Download
+
+The dataset is available for download on [Google Drive](https://drive.google.com/file/d/1iAoAo9Rx1WzcX7WFIDPwEUXbnA4f5Gg3/view?usp=sharing).
+
+To skip the data scraping and embedding steps, you can download the dataset directly and use it for analysis.
 
 ## How It Works
 
@@ -57,9 +76,9 @@ Huberman GPT provides 2 things:
 
 Search was created with [OpenAI Embeddings](https://platform.openai.com/docs/guides/embeddings) (`text-embedding-ada-002`).
 
-First, we loop over the transcription files break each file down into chunks and generate embeddings for each chunk of text.
+First, we loop over the transcription files, break each file down into chunks, and generate embeddings for each chunk of text.
 
-Then in the app we take the user's search query, generate an embedding, and use the result to find the most similar passages from the book.
+Then in the app, we take the user's search query, generate an embedding, and use the result to find the most similar passages from the book.
 
 The comparison is done using cosine similarity across our database of vectors.
 
@@ -116,7 +135,9 @@ NEXT_PUBLIC_OPENAI_API_KEY=
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY=
 ```
+
 We have to prefix the variables with NEXT_PUBLIC_ so that they are available the edge functions on Vercel on deployment.
+
 ### Dataset
 
 6. Run scraping script
@@ -124,7 +145,8 @@ We have to prefix the variables with NEXT_PUBLIC_ so that they are available the
 ```bash
 npm run scrape
 ```
-You won't need to run this script as I have already scraped the data and uploaded it to the Google Drive.
+
+You won't need to run this script as I have already scraped the data and uploaded it to Google Drive.
 
 7. Run embedding script
 
@@ -150,19 +172,18 @@ npm run dev
 ```
 
 ## Credits
-This code base is based on [Mckay Wrigley's](https://twitter.com/mckaywrigley) implementation of [Paul Graham GPT](https://github.com/mckaywrigley/paul-graham-gpt)
+
+This code base is based on [Mckay Wrigley's](https://twitter.com/mckaywrigley) implementation of [Paul Graham GPT](https://github.com/mckaywrigley/paul-graham-gpt).
 
 Thanks to [Dr. Andrew Huberman](https://twitter.com/paulg) for putting out great podcast.
 
-I highly recommend to listening to the full podcasts from the results.
+I highly recommend listening to the full podcasts from the results.
 
 ## Contact
 
 If you have any questions, feel free to reach out to me on [Twitter](https://twitter.com/ashishsavani1)!
 
 <!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[product-screenshot]: images/screenshot.png
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
 [Supabase]: https://img.shields.io/badge/Supabase-000000?style=for-the-badge&logo=supabase&logoColor=white
