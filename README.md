@@ -63,7 +63,7 @@ For a detailed structure of the dataset, including all fields and their types, p
 
 ### Download
 
-The dataset is available for download on [Google Drive](https://drive.google.com/file/d/1iAoAo9Rx1WzcX7WFIDPwEUXbnA4f5Gg3/view?usp=sharing).
+The dataset is available for download on [Google Drive](https://drive.google.com/file/d/1iAoAo9Rx1WzcX7WFIDPwEUXbnA4f5Gg3/view?usp=sharing) in CSV format .
 
 To skip the data scraping and embedding steps, you can download the dataset directly and use it for analysis.
 
