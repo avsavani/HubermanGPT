@@ -177,7 +177,7 @@ npm run dev
 
 This code base is based on [Mckay Wrigley's](https://twitter.com/mckaywrigley) implementation of [Paul Graham GPT](https://github.com/mckaywrigley/paul-graham-gpt).
 
-Thanks to [Dr. Andrew Huberman](https://twitter.com/paulg) for putting out great podcast.
+Thanks to [Dr. Andrew Huberman](https://x.com/hubermanlab) for putting out great podcast.
 
 I highly recommend listening to the full podcasts from the results.
 
